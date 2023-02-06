@@ -1,5 +1,4 @@
 {
-  "homepage": "http://markomikaelt.github.io/",
   "name": "portfolio-react-app",
   "private": true,
   "version": "0.0.0",
@@ -7,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
