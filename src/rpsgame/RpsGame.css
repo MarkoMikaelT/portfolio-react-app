@@ -1,28 +1,44 @@
+.games{
+    width: 100vw;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .homepage-game{
-    align-content: center;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0px;
+    justify-content: space-evenly;
+    width: 80%;
 }
 
 .rockpapersci{
     display: flex;
-    width: 60vw;
-    height: 50vh;
+    min-width: 60%;
+    min-height: 50%;
     justify-content: space-around;
-    margin: auto;
 }
 
 .win-text{
     animation-name: leftToRight;
     animation-duration: 3s;
     animation-iteration-count: infinite;
+    font-size: 8vh;
 }
 
 .play-hand{
+
+    justify-self: center;
+    align-self: center;
     width: fit-content;
     height: fit-content;
     padding: 10px;
     border-radius: 10px;
     font-family:'Lucida Sans';
-    font-size: larger;
+    font-size: 6vh;
     /* background-color: white; */
     
 }
@@ -33,22 +49,27 @@
     animation-iteration-count: infinite;
 }
 
-.hand-player .hand-random{
-    width: fit-content;
-    height: fit-content;
+h1, h2{
+    min-width: 16vh;
+    text-align: center;
+    font-size: 8vh;
 }
 
 .hand-icon{
-    width: 10vw;
+    width: auto;
     height: 10vh;
     animation-name: rotation;
     animation-duration: 3s;
     animation-iteration-count: infinite;
 }
-
-.hand-icon:hover{
-
+.hand-player, .hand-random{
+    margin-top: 8vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
 
 @keyframes rotation {
     0%{
@@ -69,10 +90,10 @@
         transform: translateX(0);
     }
     33%{
-        transform: translateX(15vw);
+        transform: translateX(10vw);
     }
     67%{
-        transform: translateX(-15vw);
+        transform: translateX(-10vw);
     }
     100%{
         transform: translateX();
@@ -89,3 +110,4 @@
         box-shadow: 0 0 0px ;
     }
 }
+

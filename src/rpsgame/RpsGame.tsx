@@ -106,22 +106,23 @@ function RpsGame() {
     }
     
   return (
-    
-    <div className='homepage-game'>
-        <h1 className='win-text'>{winState}</h1>
-        <div className='rockpapersci'>
-            <div className='hand-player'>
-                <h2>{winCountLeft}</h2>
-                <FontAwesomeIcon className='hand-icon' icon={hands[handNum]} onClick={nextHand}></FontAwesomeIcon>
-            </div>
+    <div className='games'> 
+        <div className='homepage-game'>
+            <h1 className='win-text'>{winState}</h1>
             <button className='play-hand' onClick={playHand}>
-            PLAY
-            </button>
-            <div className='hand-random'>
-                <h2>{winCountRight}</h2>
-                <FontAwesomeIcon className='hand-icon' icon={hands[handRnd]}></FontAwesomeIcon>
-            </div>
-        </div> 
+                    PLAY
+                    </button>
+            <div className='rockpapersci'>
+                <div className='hand-player'>
+                    <h2>{winCountLeft}</h2>
+                    <FontAwesomeIcon className='hand-icon' icon={hands[handNum]} onClick={nextHand}></FontAwesomeIcon>
+                </div>
+                <div className='hand-random'>
+                    <h2>{winCountRight}</h2>
+                    <FontAwesomeIcon className='hand-icon' icon={hands[handRnd]}></FontAwesomeIcon>
+                </div>
+            </div> 
+        </div>
     </div>
   )
 }
