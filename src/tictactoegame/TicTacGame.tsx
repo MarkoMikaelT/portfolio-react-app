@@ -76,7 +76,7 @@ const TicTacGame = () => {
 
   return (
     <div className='tictacgame'>
-      <h1>TIC TAC TOE</h1>
+      <h1 className='text-top'>TIC TAC TOE</h1>
       <div className='winstatus'>{status}</div>
       <div className='grid-squares'>
         <div className='btn-row'>
