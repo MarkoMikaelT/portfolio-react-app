@@ -6,8 +6,9 @@ function App() {
 
   return (
     <div className='app-games'>
-      <RpsGame></RpsGame>
       <TicTac></TicTac>
+      <RpsGame></RpsGame>
+      
     </div>
   )
 }
