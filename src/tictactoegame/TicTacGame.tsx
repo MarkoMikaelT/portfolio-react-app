@@ -3,7 +3,7 @@ import './TicTacGame.css'
 
 
 type squareProps = {
-  value : any[]
+  value : any
   onSquareClick : any
 }
 
@@ -53,7 +53,7 @@ const TicTacGame = () => {
     status = "Next turn: " + (isNext ? "X" : "O")
   }
 
-  function handleClick(i : number){
+  function HandleClick(i : number){
 
     if(squares[i] || WinCalc(squares)){
       return
@@ -70,26 +70,32 @@ const TicTacGame = () => {
     setIsNext(!isNext)
   }
 
+  function reset(){
+    setSquares(Array(9).fill(null))
+  }
+
   return (
     <div className='tictacgame'>
       <h1>TIC TAC TOE</h1>
       <div className='winstatus'>{status}</div>
-      <div className='btn-row'>
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)}/>
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)}/>
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)}/>
+      <div className='grid-squares'>
+        <div className='btn-row'>
+          <Square value={squares[0]} onSquareClick={() => HandleClick(0)}/>
+          <Square value={squares[1]} onSquareClick={() => HandleClick(1)}/>
+          <Square value={squares[2]} onSquareClick={() => HandleClick(2)}/>
+        </div>
+        <div className='btn-row'>
+          <Square value={squares[3]} onSquareClick={() => HandleClick(3)}/>
+          <Square value={squares[4]} onSquareClick={() => HandleClick(4)}/>
+          <Square value={squares[5]} onSquareClick={() => HandleClick(5)}/>
+        </div>
+        <div className='btn-row'>
+          <Square value={squares[6]} onSquareClick={() => HandleClick(6)}/>
+          <Square value={squares[7]} onSquareClick={() => HandleClick(7)}/>
+          <Square value={squares[8]} onSquareClick={() => HandleClick(8)}/>
+        </div>
       </div>
-      <div className='btn-row'>
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)}/>
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)}/>
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)}/>
-      </div>
-      <div className='btn-row'>
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)}/>
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)}/>
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)}/>
-      </div>
-      
+      <button className='btn-reset' onClick={() => reset()}>RESET</button>
     </div>
   )
 }
