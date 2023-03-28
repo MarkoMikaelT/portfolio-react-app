@@ -5,14 +5,15 @@ import './TicTacGame.css'
 type squareProps = {
   value : any
   onSquareClick : any
+  id: string
 }
 
 const Square = (props : squareProps) =>{
 
-  const{value, onSquareClick} = props
-
+  const{value, onSquareClick, id} = props
+  var i = 0;
   return(
-    <button className='btn-square' onClick={() => onSquareClick()}>
+    <button id={id} className='btn-square'  onClick={() => onSquareClick()}>
       {value}
     </button>
   ) 
@@ -79,21 +80,17 @@ const TicTacGame = () => {
       <h1 className='text-top'>TIC TAC TOE</h1>
       <div className='winstatus'>{status}</div>
       <div className='grid-squares'>
-        <div className='btn-row'>
-          <Square value={squares[0]} onSquareClick={() => HandleClick(0)}/>
-          <Square value={squares[1]} onSquareClick={() => HandleClick(1)}/>
-          <Square value={squares[2]} onSquareClick={() => HandleClick(2)}/>
-        </div>
-        <div className='btn-row'>
-          <Square value={squares[3]} onSquareClick={() => HandleClick(3)}/>
-          <Square value={squares[4]} onSquareClick={() => HandleClick(4)}/>
-          <Square value={squares[5]} onSquareClick={() => HandleClick(5)}/>
-        </div>
-        <div className='btn-row'>
-          <Square value={squares[6]} onSquareClick={() => HandleClick(6)}/>
-          <Square value={squares[7]} onSquareClick={() => HandleClick(7)}/>
-          <Square value={squares[8]} onSquareClick={() => HandleClick(8)}/>
-        </div>
+          <Square id="sq0" value={squares[0]} onSquareClick={() => HandleClick(0)}/>
+          <Square id="sq1" value={squares[1]} onSquareClick={() => HandleClick(1)}/>
+          <Square id="sq2" value={squares[2]} onSquareClick={() => HandleClick(2)}/>
+
+          <Square id="sq3" value={squares[3]} onSquareClick={() => HandleClick(3)}/>
+          <Square id="sq4" value={squares[4]} onSquareClick={() => HandleClick(4)}/>
+          <Square id="sq5" value={squares[5]} onSquareClick={() => HandleClick(5)}/>
+
+          <Square id="sq6" value={squares[6]} onSquareClick={() => HandleClick(6)}/>
+          <Square id="sq7" value={squares[7]} onSquareClick={() => HandleClick(7)}/>
+          <Square id="sq8" value={squares[8]} onSquareClick={() => HandleClick(8)}/>
       </div>
       <button className='btn-reset' onClick={() => reset()}>RESET</button>
     </div>

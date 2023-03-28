@@ -1,19 +1,27 @@
 .tictacgame{
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin-top: 5vh;
     margin-bottom: 5vh;
-    align-items: center;
-    justify-content: center;
     font-size: 2vh;
 }
-
+.text-top{
+    font-size: 6vh;
+    animation-name: leftToRight;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+.grid-squares{
+    display: grid;
+    font-size: 3vh;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto, auto, auto;
+    gap: 1vh;
+}
 .btn-square{
     width: 10vh;
     height: 10vh;
-    font-size: 3vh;
-    margin: 1vh;
-    padding: 1vh;
 }
 .btn-square:after{
     content: "";
@@ -24,13 +32,12 @@
     animation-duration: 2s;
     animation-iteration-count: infinite;
 }
-
-.text-top{
-    font-size: 6vh;
-    animation-name: leftToRight;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
+.btn-reset{
+    width: 50%;
+    margin: 1vh;
 }
+
+
 
 @keyframes leftToRight{
     0%{
