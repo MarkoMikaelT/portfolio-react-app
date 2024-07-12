@@ -1,5 +1,5 @@
-import { MutableRefObject, useEffect, useRef, useState } from "react";
-import { render } from "react-dom";
+import { useEffect, useRef, useState } from "react";
+import "../flappy/Flappy.css"
 
 const _grav: number = 10
 const _interval: number = 30
@@ -16,7 +16,6 @@ function Flappy(){
     const flappyRef = useRef<HTMLDivElement | null>(null);
     const [ballY, setBallY] = useState<number | undefined>(0)
     const [gameEnd, setGameEnd] = useState<boolean>(false)
-    const boxMinSize: string = "500px";
     
     useEffect(() => {
             tick()
@@ -52,6 +51,7 @@ function Flappy(){
         if(tempheight != undefined && _globalBallY >= tempheight - 80 || _globalBallY < -20){
             if (_intervalFunc){
                 console.log("GAME OVER")
+                setGameEnd(true)
                 clearInterval(_intervalFunc)
             }
         }
@@ -73,6 +73,7 @@ function Flappy(){
         _runCount = 0
         _isJumping = false
         _jumpRepeat = 0
+        setGameEnd(false)
         clearInterval(_intervalFunc)
         tick()
     }
@@ -85,18 +86,24 @@ function Flappy(){
 
     function boundingBox() {
         return (
-        <div ref={boxRef} onClick={(e) => handleClick(e)} style={{width: "100%", height: "100%", minWidth: boxMinSize, minHeight: "800px", border: "solid, red 2px"}}>
-            <svg width="100px" height="100px" transform={`translate(20, ${ballY})`}>
-                <circle cx="50" cy="50" r="40" stroke="orange" stroke-width="4" fill="yellow" />
+        <div className='flappy-box' ref={boxRef} onClick={(e) => handleClick(e)}>
+            <svg height={"20%"} width={"20%"} transform={`translate(20, ${ballY})`}>
+                <circle cx="40%" cy="40%" r="30%" stroke="grey" stroke-width="4" fill="#1a1a1a" />
             </svg>
         </div>
         )
     }
 
     return (
-        <div ref={flappyRef} className="flappygame" style={{width: "80vw", height: "100%"}}>
+        <div ref={flappyRef} className='flappygame' style={{width: "80vw", height: "100%"}}>
+            {gameEnd ? (
+                <div className='flappy-gameover'>
+                    <h2 style={{fontSize: "4rem"}}>GAME OVER</h2>
+                </div>
+            ) : (<></>)}
+            <h1>FLAPPYBOLL</h1>
             {boundingBox()}
-            <button onClick={() => restart()}>RESTART</button>
+            <button className="btn-reset" onClick={() => restart()}>RESTART</button>
         </div>
     )
 }

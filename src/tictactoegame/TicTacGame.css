@@ -1,7 +1,4 @@
 .tictacgame{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin-top: 5vh;
     margin-bottom: 5vh;
     font-size: 2vh;
@@ -25,19 +22,12 @@
 }
 .btn-square:after{
     content: "";
-
 }
 .btn-square:hover{
     animation-name: dropShadow;
     animation-duration: 2s;
     animation-iteration-count: infinite;
 }
-.btn-reset{
-    width: 50%;
-    margin: 1vh;
-}
-
-
 
 @keyframes leftToRight{
     0%{
