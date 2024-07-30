@@ -5,9 +5,9 @@ const _grav: number = 10
 const _interval: number = 30
 
 let _started: boolean = false
-let _globalBallY: number = 70
-let _globalBlockX: number = 250
-let _globalBlockY: number = 400
+let _globalBallY: number = 0
+let _globalBlockX: number = 0
+let _globalBlockY: number = 0
 let _runCount: number = 0
 let _intervalFunc: any = null
 let _isJumping: boolean = false
@@ -20,28 +20,44 @@ function Flappy(){
     const [blockX, setBlockX] = useState<number>(_globalBlockX)
     const [blockY, setBlockY] = useState<number>(_globalBlockY)
     const [gameEnd, setGameEnd] = useState<boolean>(false)
+
+    const [gravity, setGravity] = useState<number>(0) 
+    const [gameSize, setGameSize] = useState<number>(300) 
     
+    const ballCollision = gameSize / 6;
+    const ballSize = ballCollision / 2;
+    const blockSize = gameSize / 10;
+  
     useEffect(() => {
-            tick()
+            restart();
+            tick();
         },
     [])
 
     function tick(){
-        // console.log(_runCount)
         if(!_started){
+            gameScale();
             console.log("INTERVAL SET")
             _intervalFunc = setInterval(mainGame, _interval)
             _started = true
         }
     }
 
+    function gameScale(){
+        const hght = screen.availHeight / 2
+        const scrHeight = Math.floor(hght / 100)
+        console.log(hght)
+        setGravity(scrHeight * 1.5);
+        setGameSize(scrHeight * 100);
+    }
+
     function ballGravity(){
-        _globalBallY += _grav
+        _globalBallY += gravity
         setBallY(_globalBallY)
     }
 
     function ballJump(){
-        _globalBallY -= _grav * 2
+        _globalBallY -= gravity * 2
         setBallY(_globalBallY)
         if(_jumpRepeat >= 8){
             _isJumping = false
@@ -51,20 +67,19 @@ function Flappy(){
     }
 
     function blockMove(){
-        _globalBlockX -= _grav * 0.5
+        _globalBlockX -= gravity * 0.5
         resetBlock()
         setBlockX(_globalBlockX)
     }
 
     function rndBlockY(){
-        return Math.floor(Math.random() * 500)
+        return Math.floor(Math.random() * (gameSize - blockSize))
     }
 
     function resetBlock(){
         const tempWidth = boxRef?.current?.clientWidth
         if(tempWidth != undefined && _globalBlockX < 0){
-            // gameOver()
-            _globalBlockX = 500
+            _globalBlockX = gameSize - blockSize
             setBlockX(_globalBlockX)
             _globalBlockY = rndBlockY()
             setBlockY(_globalBlockY)
@@ -75,21 +90,24 @@ function Flappy(){
     function gameOver(){
         if (_intervalFunc){
             console.log("GAME OVER")
+            // console.log(_globalBallY)
+            // console.log(_globalBlockX)
+            // console.log(_globalBlockY)
             setGameEnd(true)
             clearInterval(_intervalFunc)
         }
     }
 
     function blockCollision(){
-        if(_globalBlockX < 90){
+        if(_globalBlockX < ballCollision){
             if(_globalBallY > _globalBlockY ){
                 //ball is under cube
-                if(_globalBallY < _globalBlockY + 90){
+                if(_globalBallY < _globalBlockY + blockSize){
                     gameOver()
                 }
             }else{
                 //ball is over cube
-                if(_globalBallY > _globalBlockY - 80){
+                if(_globalBallY > _globalBlockY - blockSize){
                     gameOver()
                 }
             }
@@ -98,20 +116,20 @@ function Flappy(){
 
     function wallCollision(){
         const tempheight = boxRef?.current?.clientHeight
-        if(tempheight != undefined && _globalBallY >= tempheight - 80 || _globalBallY < 0){
+        if(tempheight != undefined && _globalBallY >= tempheight - ballCollision || _globalBallY < 0){
             gameOver()
         }
     }
 
     function mainGame(){
-        blockMove()
         if(_isJumping){
             ballJump()
         }else{
             ballGravity()
         }
-        wallCollision()
+        blockMove()
         blockCollision()
+        wallCollision()
         _runCount++
     }
 
@@ -121,29 +139,33 @@ function Flappy(){
         _runCount = 0
         _isJumping = false
         _jumpRepeat = 0
-        _globalBlockX = 500
+        _globalBlockX = gameSize - blockSize
         setGameEnd(false)
         clearInterval(_intervalFunc)
         tick()
     }
 
     function handleClick(event: React.MouseEvent){
-        console.log("CLOIKNB")
         event.preventDefault()
         _isJumping = true
     }
 
     function boundingBox() {
         return (
-        <div className='flappy-box' ref={boxRef} onClick={(e) => handleClick(e)}>
-            <div style={{position: "absolute", width: "600px", height: "600px", zIndex: 11}}>
-                <svg width={"80px"} height={"80px"} transform={`translate(20, ${ballY})`}>
-                    <circle cx="40px" cy="40px" r="38px" stroke="grey" strokeWidth="4" fill="#1a1a1a" />
+        <div 
+            className='flappy-box'
+            style={{width: gameSize, height: gameSize}} 
+            ref={boxRef} 
+            onClick={(e) => handleClick(e)}
+        >
+            <div style={{position: "absolute", width: gameSize, height: gameSize, zIndex: 11}}>
+                <svg width={ballCollision} height={ballCollision} transform={`translate(20, ${ballY})`}>
+                    <circle cx={ballSize} cy={ballSize} r={ballSize - 2} stroke="grey" strokeWidth="4" fill="#1a1a1a" />
                 </svg>
             </div>
-            <div style={{position: "absolute", width: "100px", height: "600px", zIndex: 12}}>
-                <svg width={100} height={100} transform={`translate(${blockX}, ${blockY})`}>
-                    <rect width={100} height={100} rx={15} stroke="grey" strokeWidth="4" fill="#480607"/>
+            <div style={{position: "absolute", width: blockSize, height: gameSize, zIndex: 12}}>
+                <svg width={blockSize} height={blockSize} transform={`translate(${blockX}, ${blockY})`}>
+                    <rect width={blockSize} height={blockSize} rx={15} stroke="grey" strokeWidth="4" fill="#480607"/>
                 </svg>
             </div>
         </div>
@@ -159,7 +181,7 @@ function Flappy(){
             ) : (<></>)}
             <h1>FLAPPYBOLL</h1>
             {boundingBox()}
-            <button className="btn-reset" onClick={() => restart()}>RESTART</button>
+            <button className="btn-reset" onClick={() => restart()}>START</button>
         </div>
     )
 }
