@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import "../flappy/Flappy.css"
 
-const _grav: number = 10
 const _interval: number = 30
 
 let _started: boolean = false
 let _globalBallY: number = 0
 let _globalBlockX: number = 0
 let _globalBlockY: number = 0
-let _runCount: number = 0
+let _score: number = 0
 let _intervalFunc: any = null
 let _isJumping: boolean = false
 let _jumpRepeat: number = 0
@@ -22,7 +21,8 @@ function Flappy(){
     const [gameEnd, setGameEnd] = useState<boolean>(false)
 
     const [gravity, setGravity] = useState<number>(0) 
-    const [gameSize, setGameSize] = useState<number>(300) 
+    const [gameSize, setGameSize] = useState<number>(300)
+    const [gameScore, setGameScore] = useState<number>(0)
     
     const ballCollision = gameSize / 6;
     const ballSize = ballCollision / 2;
@@ -83,7 +83,7 @@ function Flappy(){
             setBlockX(_globalBlockX)
             _globalBlockY = rndBlockY()
             setBlockY(_globalBlockY)
-
+            _score++
         }
     }
 
@@ -93,6 +93,7 @@ function Flappy(){
             // console.log(_globalBallY)
             // console.log(_globalBlockX)
             // console.log(_globalBlockY)
+            setGameScore(_score)
             setGameEnd(true)
             clearInterval(_intervalFunc)
         }
@@ -130,13 +131,12 @@ function Flappy(){
         blockMove()
         blockCollision()
         wallCollision()
-        _runCount++
     }
 
     function restart(){
         _started = false
         _globalBallY = 0
-        _runCount = 0
+        _score = 0
         _isJumping = false
         _jumpRepeat = 0
         _globalBlockX = gameSize - blockSize
@@ -176,7 +176,11 @@ function Flappy(){
         <div ref={flappyRef} className='flappygame' style={{width: "80vw", height: "100%"}}>
             {gameEnd ? (
                 <div className='flappy-gameover'>
-                    <h2 style={{fontSize: "4rem"}}>GAME OVER</h2>
+                    <h2 style={{fontSize: "4rem"}}>
+                        GAME OVER
+                        <br/>
+                        {gameScore}
+                    </h2> 
                 </div>
             ) : (<></>)}
             <h1>FLAPPYBOLL</h1>
